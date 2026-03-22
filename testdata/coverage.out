@@ -1,0 +1,4 @@
+mode: set
+example.com/myapp/pkg/service.go:3.13,5.2 1 1
+example.com/myapp/pkg/service.go:8.17,11.2 2 0
+example.com/myapp/pkg/service.go:13.15,15.2 1 1
