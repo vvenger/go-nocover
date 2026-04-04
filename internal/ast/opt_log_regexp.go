@@ -27,23 +27,23 @@ func WithoutLogRegexp(patterns []*regexp.Regexp) ExcludeFunc {
 			switch node := n.(type) {
 			case *goast.IfStmt:
 				if node.Body != nil && bodyOnlyLogCalls(fset, node.Body, patterns) {
-					aFile.add(item)
+					aFile.addOption(item)
 					return false
 				}
 			case *goast.FuncDecl:
 				if node.Body != nil && bodyOnlyLogCalls(fset, node.Body, patterns) {
-					aFile.add(item)
+					aFile.addOption(item)
 					return false
 				}
 			case *goast.ExprStmt:
 				if matchesAnyPattern(fset, node.X, patterns) {
-					aFile.add(item)
+					aFile.addOption(item)
 				}
 				return false
 			case *goast.AssignStmt:
 				for _, rhs := range node.Rhs {
 					if matchesAnyPattern(fset, rhs, patterns) {
-						aFile.add(item)
+						aFile.addOption(item)
 						break
 					}
 				}

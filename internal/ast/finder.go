@@ -14,9 +14,17 @@ import (
 
 const nocoverComment = "//nocover:block"
 
+type ExcludeSource int
+
+const (
+	ExcludeSourceNoCover ExcludeSource = iota
+	ExcludeSourceOption
+)
+
 type ExcludeRange struct {
 	StartLine int
 	EndLine   int
+	Source    ExcludeSource
 }
 
 type ExcludeFunc func(ast *astFile, fset *token.FileSet, f *goast.File) error
@@ -59,6 +67,7 @@ func findExcludeRanges(file []byte, opts ...ExcludeFunc) ([]ExcludeRange, error)
 		aFile.add(ExcludeRange{
 			StartLine: fset.Position(n.Pos()).Line,
 			EndLine:   fset.Position(n.End()).Line,
+			Source:    ExcludeSourceNoCover,
 		})
 
 		return false

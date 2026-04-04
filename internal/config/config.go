@@ -20,7 +20,8 @@ const (
 )
 
 type Config struct {
-	MarkBlocks       MarkBlocks `yaml:"mark-blocks"`
+	MarkNoCover      MarkBlocks `yaml:"mark-no-cover"`
+	MarkOptions      MarkBlocks `yaml:"mark-options"`
 	ExcludeErrRegexp []string   `yaml:"exclude-err-regexp"`
 	ExcludeLogRegexp []string   `yaml:"exclude-log-regexp"`
 	ExcludeErrNil    bool       `yaml:"exclude-errnil"`
@@ -47,16 +48,18 @@ func Load(r io.Reader) (Config, error) {
 		}
 		return Config{}, fmt.Errorf("can't parse config: %w", err)
 	}
-
-	if cfg.MarkBlocks != MarkBlocksDeleted && cfg.MarkBlocks != MarkBlocksTested {
-		cfg.MarkBlocks = MarkBlocksNone
-	}
-
 	return cfg, nil
 }
 
-func (c Config) MarkBlocksValue() MarkBlocks {
-	if c.MarkBlocks == MarkBlocksDeleted {
+func (c Config) MarkNoCoverValue() MarkBlocks {
+	if c.MarkNoCover == MarkBlocksTested {
+		return MarkBlocksTested
+	}
+	return MarkBlocksDeleted
+}
+
+func (c Config) MarkOptionsValue() MarkBlocks {
+	if c.MarkOptions == MarkBlocksDeleted {
 		return MarkBlocksDeleted
 	}
 	return MarkBlocksTested

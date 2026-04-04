@@ -23,7 +23,7 @@ func f() error {
 	}
 	return nil
 }`,
-			wantRanges: []ExcludeRange{{StartLine: 3, EndLine: 5}},
+			wantRanges: []ExcludeRange{{StartLine: 3, EndLine: 5, Source: ExcludeSourceOption}},
 		},
 		{
 			name: "if with init and return",
@@ -34,7 +34,7 @@ func f() error {
 	}
 	return nil
 }`,
-			wantRanges: []ExcludeRange{{StartLine: 3, EndLine: 5}},
+			wantRanges: []ExcludeRange{{StartLine: 3, EndLine: 5, Source: ExcludeSourceOption}},
 		},
 		{
 			name: "body single statement, bare return",
@@ -44,9 +44,9 @@ func f() {
      	http.Error(w, err.Error(), http.StatusBadRequest)
         return
 	}
-	method()	
+	method()
 }`,
-			wantRanges: []ExcludeRange{{StartLine: 3, EndLine: 6}},
+			wantRanges: []ExcludeRange{{StartLine: 3, EndLine: 6, Source: ExcludeSourceOption}},
 		},
 		{
 			name: "body has extra statement — not excluded",
@@ -120,7 +120,7 @@ func f() error {
 	require.NoError(t, err)
 	// log() at line 4 excluded first; WithoutIfErrReturn sees effective body = [return err] → excludes if block
 	assert.ElementsMatch(t, []ExcludeRange{
-		{StartLine: 4, EndLine: 4},
-		{StartLine: 3, EndLine: 6},
+		{StartLine: 4, EndLine: 4, Source: ExcludeSourceOption},
+		{StartLine: 3, EndLine: 6, Source: ExcludeSourceOption},
 	}, ranges)
 }

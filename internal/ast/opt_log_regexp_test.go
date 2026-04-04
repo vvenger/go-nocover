@@ -28,7 +28,7 @@ func f() {
 	log.Info("start")
 	doWork()
 }`,
-			wantRanges: []ExcludeRange{{StartLine: 3, EndLine: 3}},
+			wantRanges: []ExcludeRange{{StartLine: 3, EndLine: 3, Source: ExcludeSourceOption}},
 		},
 		{
 			// if block with only log calls → entire IfStmt is excluded (single entry)
@@ -39,7 +39,7 @@ func f(debug bool) {
 		log.Info("debug mode")
 	}
 }`,
-			wantRanges: []ExcludeRange{{StartLine: 3, EndLine: 5}},
+			wantRanges: []ExcludeRange{{StartLine: 3, EndLine: 5, Source: ExcludeSourceOption}},
 		},
 		{
 			// if block with log and other code → only the log statement is excluded
@@ -51,7 +51,7 @@ func f(ok bool) {
 		doWork()
 	}
 }`,
-			wantRanges: []ExcludeRange{{StartLine: 4, EndLine: 4}},
+			wantRanges: []ExcludeRange{{StartLine: 4, EndLine: 4, Source: ExcludeSourceOption}},
 		},
 		{
 			// func body with only log calls → entire FuncDecl is excluded (single entry)
@@ -60,7 +60,7 @@ func f(ok bool) {
 func logStart() {
 	log.Info("start")
 }`,
-			wantRanges: []ExcludeRange{{StartLine: 2, EndLine: 4}},
+			wantRanges: []ExcludeRange{{StartLine: 2, EndLine: 4, Source: ExcludeSourceOption}},
 		},
 		{
 			// multiple log statements in a mixed function → each statement excluded separately
@@ -72,8 +72,8 @@ func f() {
 	log.Error("b")
 }`,
 			wantRanges: []ExcludeRange{
-				{StartLine: 3, EndLine: 3},
-				{StartLine: 5, EndLine: 5},
+				{StartLine: 3, EndLine: 3, Source: ExcludeSourceOption},
+				{StartLine: 5, EndLine: 5, Source: ExcludeSourceOption},
 			},
 		},
 		{
@@ -85,7 +85,7 @@ func f(ok bool) {
 		logger.Ctx(ctx).Info("ok")
 	}
 }`,
-			wantRanges: []ExcludeRange{{StartLine: 3, EndLine: 5}},
+			wantRanges: []ExcludeRange{{StartLine: 3, EndLine: 5, Source: ExcludeSourceOption}},
 		},
 		{
 			// pattern .logger. matches
@@ -97,7 +97,7 @@ func f(ok bool) {
 	}
 }`,
 			patterns:   []*regexp.Regexp{regexp.MustCompile(`\.logger\.`)},
-			wantRanges: []ExcludeRange{{StartLine: 3, EndLine: 5}},
+			wantRanges: []ExcludeRange{{StartLine: 3, EndLine: 5, Source: ExcludeSourceOption}},
 		},
 		{
 			// two patterns both match
@@ -112,7 +112,7 @@ func f(ok bool) {
 	}
 }`,
 			patterns:   []*regexp.Regexp{regexp.MustCompile(`logger\.WithFields`), regexp.MustCompile(`\.logger\.`)},
-			wantRanges: []ExcludeRange{{StartLine: 3, EndLine: 5}, {StartLine: 6, EndLine: 8}},
+			wantRanges: []ExcludeRange{{StartLine: 3, EndLine: 5, Source: ExcludeSourceOption}, {StartLine: 6, EndLine: 8, Source: ExcludeSourceOption}},
 		},
 		{
 			// non-log call → not excluded
@@ -132,6 +132,17 @@ func f(ok bool) {
 	if ok {
 	}
 }`,
+		},
+		{
+			name: "if_block_with_log_and_other_stmt",
+			src: `package p
+func f(ok bool) {
+	if ok {
+		log.Info("ok")
+		doWork()
+	}
+}`,
+			wantRanges: []ExcludeRange{{StartLine: 4, EndLine: 4, Source: ExcludeSourceOption}},
 		},
 	}
 

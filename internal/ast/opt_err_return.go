@@ -36,7 +36,7 @@ func WithoutIfErrReturn() ExcludeFunc {
 				return true
 			}
 
-			aFile.add(item)
+			aFile.addOption(item)
 
 			return false
 		})

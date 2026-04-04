@@ -71,7 +71,7 @@ func findErrRegexpRanges(aFile *astFile, fset *token.FileSet, f *goast.File, pat
 			}
 
 			if matched {
-				aFile.add(item)
+				aFile.addOption(item)
 			}
 		}
 

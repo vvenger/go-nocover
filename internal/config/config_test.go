@@ -23,16 +23,12 @@ func TestLoad(t *testing.T) {
 		{
 			name: "exclude-errnil true",
 			yaml: `exclude-errnil: true`,
-			want: Config{
-				ExcludeErrNil: true,
-			},
+			want: Config{ExcludeErrNil: true},
 		},
 		{
 			name: "exclude-errnil false",
 			yaml: `exclude-errnil: false`,
-			want: Config{
-				ExcludeErrNil: false,
-			},
+			want: Config{ExcludeErrNil: false},
 		},
 		{
 			name: "exclude-err-regexp",
@@ -63,19 +59,29 @@ exclude-err-regexp:
 			wantErr: true,
 		},
 		{
-			name: "mark-blocks deleted",
-			yaml: `mark-blocks: deleted`,
-			want: Config{MarkBlocks: MarkBlocksDeleted},
+			name: "mark-no-cover deleted",
+			yaml: `mark-no-cover: deleted`,
+			want: Config{MarkNoCover: MarkBlocksDeleted},
 		},
 		{
-			name: "mark-blocks tested",
-			yaml: `mark-blocks: tested`,
-			want: Config{MarkBlocks: MarkBlocksTested},
+			name: "mark-no-cover tested",
+			yaml: `mark-no-cover: tested`,
+			want: Config{MarkNoCover: MarkBlocksTested},
 		},
 		{
-			name: "mark-blocks unknown",
-			yaml: "mark-blocks: unknown",
-			want: Config{},
+			name: "mark-options deleted",
+			yaml: `mark-options: deleted`,
+			want: Config{MarkOptions: MarkBlocksDeleted},
+		},
+		{
+			name: "mark-options tested",
+			yaml: `mark-options: tested`,
+			want: Config{MarkOptions: MarkBlocksTested},
+		},
+		{
+			name: "mark-no-cover and mark-options together",
+			yaml: "mark-no-cover: deleted\nmark-options: tested",
+			want: Config{MarkNoCover: MarkBlocksDeleted, MarkOptions: MarkBlocksTested},
 		},
 	}
 

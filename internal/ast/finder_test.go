@@ -56,6 +56,19 @@ func foo(x int) {
 	assert.Equal(t, 6, rs[0].EndLine)
 }
 
+func TestFindExcludeRanges_SourceNoCover(t *testing.T) {
+	src := `package main
+
+//nocover:block
+func foo() {
+	_ = 1
+}
+`
+	rs := ranges(t, src)
+	require.Len(t, rs, 1)
+	assert.Equal(t, ExcludeSourceNoCover, rs[0].Source)
+}
+
 func TestFindExcludeRanges_NoComment(t *testing.T) {
 	src := `package main
 

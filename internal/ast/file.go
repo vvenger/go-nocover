@@ -23,6 +23,11 @@ func (f *astFile) add(r ExcludeRange) {
 	}
 }
 
+func (f *astFile) addOption(r ExcludeRange) {
+	r.Source = ExcludeSourceOption
+	f.add(r)
+}
+
 func (f *astFile) excluded(r ExcludeRange) bool {
 	for _, v := range f.ranges {
 		if r.StartLine >= v.StartLine && r.EndLine <= v.EndLine {

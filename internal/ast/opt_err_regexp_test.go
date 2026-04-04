@@ -30,7 +30,7 @@ func f() error {
 	return nil
 }`,
 			patterns:   marshal,
-			wantRanges: []ExcludeRange{{StartLine: 3, EndLine: 5}},
+			wantRanges: []ExcludeRange{{StartLine: 3, EndLine: 5, Source: ExcludeSourceOption}},
 		},
 		{
 			name: "preceding-stmt simple assign",
@@ -43,7 +43,7 @@ func f() error {
 	return nil
 }`,
 			patterns:   marshal,
-			wantRanges: []ExcludeRange{{StartLine: 4, EndLine: 6}},
+			wantRanges: []ExcludeRange{{StartLine: 4, EndLine: 6, Source: ExcludeSourceOption}},
 		},
 		{
 			name: "preceding-stmt multi-assign",
@@ -56,7 +56,7 @@ func f() ([]byte, error) {
 	return body, nil
 }`,
 			patterns:   marshal,
-			wantRanges: []ExcludeRange{{StartLine: 4, EndLine: 6}},
+			wantRanges: []ExcludeRange{{StartLine: 4, EndLine: 6, Source: ExcludeSourceOption}},
 		},
 		{
 			name: "no match — different function",
@@ -114,8 +114,8 @@ func f() error {
 				regexp.MustCompile(`json\.Unmarshal\(`),
 			},
 			wantRanges: []ExcludeRange{
-				{StartLine: 4, EndLine: 6},
-				{StartLine: 8, EndLine: 10},
+				{StartLine: 4, EndLine: 6, Source: ExcludeSourceOption},
+				{StartLine: 8, EndLine: 10, Source: ExcludeSourceOption},
 			},
 		},
 		{
@@ -136,7 +136,7 @@ func f() error {
 				regexp.MustCompile(`json\.Marshal\(`),
 				regexp.MustCompile(`json\.Unmarshal\(`),
 			},
-			wantRanges: []ExcludeRange{{StartLine: 4, EndLine: 6}},
+			wantRanges: []ExcludeRange{{StartLine: 4, EndLine: 6, Source: ExcludeSourceOption}},
 		},
 	}
 
