@@ -23,12 +23,16 @@ func TestLoad(t *testing.T) {
 		{
 			name: "exclude-errnil true",
 			yaml: `exclude-errnil: true`,
-			want: Config{ExcludeErrNil: true},
+			want: Config{
+				ExcludeErrNil: true,
+			},
 		},
 		{
 			name: "exclude-errnil false",
 			yaml: `exclude-errnil: false`,
-			want: Config{ExcludeErrNil: false},
+			want: Config{
+				ExcludeErrNil: false,
+			},
 		},
 		{
 			name: "exclude-err-regexp",
@@ -57,6 +61,21 @@ exclude-err-regexp:
 			name:    "malformed yaml",
 			yaml:    "exclude-errnil: [invalid",
 			wantErr: true,
+		},
+		{
+			name: "mark-blocks deleted",
+			yaml: `mark-blocks: deleted`,
+			want: Config{MarkBlocks: MarkBlocksDeleted},
+		},
+		{
+			name: "mark-blocks tested",
+			yaml: `mark-blocks: tested`,
+			want: Config{MarkBlocks: MarkBlocksTested},
+		},
+		{
+			name: "mark-blocks unknown",
+			yaml: "mark-blocks: unknown",
+			want: Config{},
 		},
 	}
 

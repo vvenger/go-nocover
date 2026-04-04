@@ -23,7 +23,7 @@ func Run(coveragePath, outputPath, root string, cfg *config.Config) error {
 		return fmt.Errorf("parse options:%w", err)
 	}
 
-	profile, err := process(coveragePath, root, opts)
+	profile, err := process(coveragePath, root, opts, cfg.MarkBlocksValue())
 	if err != nil {
 		return fmt.Errorf("process coverage: %w", err)
 	}
@@ -35,7 +35,7 @@ func Run(coveragePath, outputPath, root string, cfg *config.Config) error {
 	return nil
 }
 
-func process(coveragePath string, root string, opts []ast.ExcludeFunc) (*parser.Profile, error) {
+func process(coveragePath string, root string, opts []ast.ExcludeFunc, mark config.MarkBlocks) (*parser.Profile, error) {
 	moduleName, err := moduleName(root)
 	if err != nil {
 		return nil, fmt.Errorf("read module name: %w", err)
@@ -69,7 +69,7 @@ func process(coveragePath string, root string, opts []ast.ExcludeFunc) (*parser.
 		excludeRanges[file] = ranges
 	}
 
-	profile.Blocks = filter(profile.Blocks, excludeRanges)
+	profile.Blocks = filter(profile.Blocks, excludeRanges, mark)
 
 	return profile, nil
 }

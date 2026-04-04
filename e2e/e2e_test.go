@@ -34,5 +34,5 @@ func TestExcludeErrNil(t *testing.T) {
 	require.NoError(t, err)
 
 	output := string(data)
-	require.NotContains(t, output, "cmd/main.go:71.13,", "main() block must be excluded via //nocover:block")
+	require.Contains(t, output, "cmd/main.go:71.13,86.12 8 1", "main() block must be marked as tested via //nocover:block")
 }

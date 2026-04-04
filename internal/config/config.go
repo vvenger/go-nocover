@@ -11,10 +11,19 @@ import (
 
 const DefaultConfigName = "nocover.yaml"
 
+type MarkBlocks string
+
+const (
+	MarkBlocksNone    MarkBlocks = ""
+	MarkBlocksDeleted MarkBlocks = "deleted"
+	MarkBlocksTested  MarkBlocks = "tested"
+)
+
 type Config struct {
-	ExcludeErrRegexp []string `yaml:"exclude-err-regexp"`
-	ExcludeLogRegexp []string `yaml:"exclude-log-regexp"`
-	ExcludeErrNil    bool     `yaml:"exclude-errnil"`
+	MarkBlocks       MarkBlocks `yaml:"mark-blocks"`
+	ExcludeErrRegexp []string   `yaml:"exclude-err-regexp"`
+	ExcludeLogRegexp []string   `yaml:"exclude-log-regexp"`
+	ExcludeErrNil    bool       `yaml:"exclude-errnil"`
 }
 
 func LoadFromFile(path string) (Config, error) {
@@ -38,5 +47,17 @@ func Load(r io.Reader) (Config, error) {
 		}
 		return Config{}, fmt.Errorf("can't parse config: %w", err)
 	}
+
+	if cfg.MarkBlocks != MarkBlocksDeleted && cfg.MarkBlocks != MarkBlocksTested {
+		cfg.MarkBlocks = MarkBlocksNone
+	}
+
 	return cfg, nil
+}
+
+func (c Config) MarkBlocksValue() MarkBlocks {
+	if c.MarkBlocks == MarkBlocksDeleted {
+		return MarkBlocksDeleted
+	}
+	return MarkBlocksTested
 }
