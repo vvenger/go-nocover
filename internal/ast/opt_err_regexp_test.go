@@ -8,6 +8,9 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
+// Finds `if err != nil { }` blocks where an error
+// occurred due to a call matching one of the patterns (regex).
+// Example: `json.Marshal(`.
 func TestWithoutIfErrReturnRegexp(t *testing.T) {
 	marshal := []*regexp.Regexp{regexp.MustCompile(`json\.Marshal\(`)}
 
@@ -61,19 +64,6 @@ func f() ([]byte, error) {
 func f() error {
 	err = otherFn()
 	if err != nil {
-		return err
-	}
-	return nil
-}`,
-			patterns: marshal,
-		},
-		{
-			name: "no match — body has extra statement",
-			src: `package p
-func f() error {
-	err = json.Marshal(v)
-	if err != nil {
-		log.Println(err)
 		return err
 	}
 	return nil

@@ -12,9 +12,9 @@ func WithoutIfErrReturnRegexp(patterns []*regexp.Regexp) ExcludeFunc {
 	}
 }
 
-// findErrRegexpRanges finds `if err != nil { return }` blocks where the error
-// originated from a call matching one of patterns — either via the if-stmt's
-// init statement or the immediately preceding statement in the same block.
+// Finds `if err != nil { }` blocks where an error
+// occurred due to a call matching one of the patterns.
+// Example: `json.Marshal(`.
 func findErrRegexpRanges(aFile *astFile, fset *token.FileSet, f *goast.File, patterns []*regexp.Regexp) error {
 	goast.Inspect(f, func(n goast.Node) bool {
 		if n == nil {
@@ -48,7 +48,7 @@ func findErrRegexpRanges(aFile *astFile, fset *token.FileSet, f *goast.File, pat
 				continue
 			}
 
-			if !isErrNotNil(ifStmt.Cond) || ifStmt.Else != nil || !bodyOnlyReturns(effectiveStmts(fset, ifStmt.Body.List, aFile)) {
+			if !isErrNotNil(ifStmt.Cond) || ifStmt.Else != nil {
 				continue
 			}
 

@@ -6,6 +6,8 @@ import (
 	"regexp"
 )
 
+// Finds logging statements by matching patterns (regex).
+// Example: `log.Info(`.
 func WithoutLogRegexp(patterns []*regexp.Regexp) ExcludeFunc {
 	return func(aFile *astFile, fset *token.FileSet, f *goast.File) error {
 		goast.Inspect(f, func(n goast.Node) bool {

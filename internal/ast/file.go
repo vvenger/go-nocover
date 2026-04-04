@@ -2,6 +2,7 @@ package ast
 
 import (
 	goast "go/ast"
+	"go/token"
 	"strings"
 )
 
@@ -29,6 +30,23 @@ func (f *astFile) excluded(r ExcludeRange) bool {
 		}
 	}
 	return false
+}
+
+// Statements that are not excluded by other options.
+func (f *astFile) unexcludedStmts(fset *token.FileSet, stmts []goast.Stmt) []goast.Stmt {
+	result := make([]goast.Stmt, 0, len(stmts))
+
+	for _, stmt := range stmts {
+		item := ExcludeRange{
+			StartLine: fset.Position(stmt.Pos()).Line,
+			EndLine:   fset.Position(stmt.End()).Line,
+		}
+		if !f.excluded(item) {
+			result = append(result, stmt)
+		}
+	}
+
+	return result
 }
 
 func parseImports(f *goast.File) map[string]string {

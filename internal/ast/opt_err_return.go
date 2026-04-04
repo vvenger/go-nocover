@@ -5,6 +5,8 @@ import (
 	"go/token"
 )
 
+// Finds `if err != nil { return }` blocks.
+// Where `return` is a single statement.
 func WithoutIfErrReturn() ExcludeFunc {
 	return func(aFile *astFile, fset *token.FileSet, f *goast.File) error {
 		goast.Inspect(f, func(n goast.Node) bool {
@@ -30,7 +32,7 @@ func WithoutIfErrReturn() ExcludeFunc {
 				return true
 			}
 
-			if !isErrNotNil(ifStmt.Cond) || ifStmt.Else != nil || !bodyOnlyReturns(effectiveStmts(fset, ifStmt.Body.List, aFile)) {
+			if !isErrNotNil(ifStmt.Cond) || ifStmt.Else != nil || !bodyOnlyReturns(aFile.unexcludedStmts(fset, ifStmt.Body.List)) {
 				return true
 			}
 

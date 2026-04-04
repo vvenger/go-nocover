@@ -164,23 +164,6 @@ func bodyOnlyReturns(stmts []goast.Stmt) bool {
 	return len(stmts) == 1 || (len(stmts) == 2 && len(ret.Results) == 0)
 }
 
-// Filtering operators already covered by another option.
-func effectiveStmts(fset *token.FileSet, stmts []goast.Stmt, aFile *astFile) []goast.Stmt {
-	result := make([]goast.Stmt, 0, len(stmts))
-
-	for _, stmt := range stmts {
-		item := ExcludeRange{
-			StartLine: fset.Position(stmt.Pos()).Line,
-			EndLine:   fset.Position(stmt.End()).Line,
-		}
-		if !aFile.excluded(item) {
-			result = append(result, stmt)
-		}
-	}
-
-	return result
-}
-
 func matchesAnyPattern(fset *token.FileSet, node goast.Node, patterns []*regexp.Regexp) bool {
 	var buf bytes.Buffer
 	if err := format.Node(&buf, fset, node); err != nil {
