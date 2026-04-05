@@ -14,7 +14,7 @@ go install github.com/vvenger/go-nocover@latest
 ```bash
 go test -cover -coverprofile=coverage.out -coverpkg=./... ./...
 # Filter and write to a new file
-nocover -coverage=coverage.out -output=coverage.filtered.out
+go-nocover -coverage=coverage.out -output=coverage.filtered.out
 # Code coverage tool
 gocover-cobertura < coverage.filtered.out > coverage.xml
 diff-cover coverage.xml --compare-branch=origin/dev
