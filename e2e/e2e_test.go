@@ -2,8 +2,8 @@ package e2e
 
 import (
 	"io"
-	"nocover/internal/app"
-	"nocover/internal/config"
+	"github.com/vvenger/go-nocover/internal/app"
+	"github.com/vvenger/go-nocover/internal/config"
 	"os"
 	"path/filepath"
 	"strings"

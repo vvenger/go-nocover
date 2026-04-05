@@ -1,9 +1,9 @@
 package app
 
 import (
-	"nocover/internal/ast"
-	"nocover/internal/config"
-	"nocover/internal/parser"
+	"github.com/vvenger/go-nocover/internal/ast"
+	"github.com/vvenger/go-nocover/internal/config"
+	"github.com/vvenger/go-nocover/internal/parser"
 )
 
 func filter(blocks []parser.Block, ranges map[string][]ast.ExcludeRange, markNoCover, markOptions config.MarkBlocks) []parser.Block {

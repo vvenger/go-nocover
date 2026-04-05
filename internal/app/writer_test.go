@@ -1,7 +1,7 @@
 package app
 
 import (
-	"nocover/internal/parser"
+	"github.com/vvenger/go-nocover/internal/parser"
 	"strings"
 	"testing"
 

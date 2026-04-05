@@ -6,7 +6,7 @@ blocks annotated with `//nocover:block`, error-logging blocks, and `if err != ni
 ## Installation
 
 ```bash
-go install nocover@latest
+go install github.com/vvenger/go-nocover@latest
 ```
 
 ## Usage

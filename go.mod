@@ -1,4 +1,4 @@
-module nocover
+module github.com/vvenger/go-nocover
 
 go 1.25.3
 

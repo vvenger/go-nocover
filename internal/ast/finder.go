@@ -38,10 +38,6 @@ func FileExcludeRanges(filePath string, opts ...ExcludeFunc) ([]ExcludeRange, er
 	return findExcludeRanges(file, opts...)
 }
 
-func FindExcludeRanges(file []byte, opts ...ExcludeFunc) ([]ExcludeRange, error) {
-	return findExcludeRanges(file, opts...)
-}
-
 func findExcludeRanges(file []byte, opts ...ExcludeFunc) ([]ExcludeRange, error) {
 	fset := token.NewFileSet()
 	f, err := parser.ParseFile(fset, "", file, parser.ParseComments)

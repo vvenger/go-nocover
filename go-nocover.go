@@ -1,16 +1,14 @@
 package main
 
 import (
-	"errors"
 	"flag"
 	"fmt"
-	"nocover/internal/app"
-	"nocover/internal/config"
 	"os"
 	"path/filepath"
-)
 
-var errNoModule = errors.New("module directive not found in go.mod")
+	"github.com/vvenger/go-nocover/internal/app"
+	"github.com/vvenger/go-nocover/internal/config"
+)
 
 func main() {
 	coveragePath := flag.String("coverage", ".", "path to input coverage profile (default: current directory)")

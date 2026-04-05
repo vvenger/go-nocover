@@ -3,7 +3,7 @@ package app
 import (
 	"fmt"
 	"io"
-	"nocover/internal/parser"
+	"github.com/vvenger/go-nocover/internal/parser"
 	"os"
 )
 
