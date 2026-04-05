@@ -26,8 +26,15 @@ func (s *URLService) isBlocked(userID int) bool {
 	return ok
 }
 
-func (s *URLService) Encode(userID int, input string) (string, error) {
+func (s *URLService) mustBlocked(userID int) error {
 	if s.isBlocked(userID) {
+		return ErrForbidden
+	}
+	return nil
+}
+
+func (s *URLService) Encode(userID int, input string) (string, error) {
+	if err := s.mustBlocked(userID); err != nil {
 		slog.Debug("debug log", "userID", userID)
 		return "", ErrForbidden
 	}

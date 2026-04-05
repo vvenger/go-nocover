@@ -12,8 +12,22 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
+var testConfig = `
+mark-no-cover: deleted
+mark-options: tested
+exclude-errnil: true
+exclude-log-regexp:
+  - \.Info\(
+  - \.Error\(
+  - \.Debug\(
+  - \.logger\.
+exclude-err-regexp:
+  - json\.Marshal\(
+  - json\.Unmarshal\(
+`
+
 func configErrNil() io.Reader {
-	return strings.NewReader(`exclude-errnil: true`)
+	return strings.NewReader(testConfig)
 }
 
 func TestExcludeErrNil(t *testing.T) {

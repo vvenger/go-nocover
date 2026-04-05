@@ -1,0 +1,15 @@
+mark-no-cover: deleted
+mark-options: tested
+exclude-errnil: true
+exclude-log-regexp:
+  - \.Info\(
+  - \.Error\(
+  - \.Debug\(
+  - \.logger\.
+exclude-err-regexp:
+  - json\.Marshal\(
+  - json\.Unmarshal\(
+# exclude-err-method:
+#   - (pgx.Rows) Scan
+#   - (pgx.Rows) Err
+#   - (pgxpool.Pool) Query

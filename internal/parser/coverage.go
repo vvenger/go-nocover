@@ -132,10 +132,12 @@ func parseBlock(line string) (Block, error) {
 	if comma == -1 {
 		return Block{}, ErrBadFormat
 	}
+
 	startLine, startCol, err := parseLineCol(pos[:comma])
 	if err != nil {
 		return Block{}, fmt.Errorf("start position: %w", err)
 	}
+
 	endLine, endCol, err := parseLineCol(pos[comma+1:])
 	if err != nil {
 		return Block{}, fmt.Errorf("end position: %w", err)

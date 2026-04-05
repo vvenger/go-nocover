@@ -85,7 +85,7 @@ func TestResolvePath(t *testing.T) {
 			expected:   "/project/other/module/pkg/foo.go",
 		},
 		{
-			name:       "root is dot",
+			name:       "root current dir",
 			file:       "github.com/user/repo/main.go",
 			moduleName: "github.com/user/repo",
 			root:       ".",
